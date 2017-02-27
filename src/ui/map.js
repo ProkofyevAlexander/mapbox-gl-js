@@ -887,6 +887,20 @@ class Map extends Camera {
     }
 
     /**
+     * Sets multiple filters for the specified style layers by single query.
+     *
+     * @param {Array} filters
+     * @returns {Map} `this`
+     * @example
+     * map.setFilters([['my-layer-1', ['==', 'name', 'USA']], ['my-layer-2', ['==', 'name', 'USA']]]);
+     */
+    setFilters(filters) {
+        filters.forEach(filter => this.style.setFilter(filter[0], filter[1]));
+        this._update(true);
+        return this;
+    }
+
+    /**
      * Sets the zoom extent for the specified style layer.
      *
      * @param {string} layerId The ID of the layer to which the zoom extent will be applied.
