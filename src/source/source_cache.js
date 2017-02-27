@@ -142,6 +142,19 @@ class SourceCache extends Evented {
     reloadTile(id, state) {
         const tile = this._tiles[id];
 
+        if (tile.reloadTimeoutId) {
+            clearTimeout(tile.reloadTimeoutId);
+            tile.reloadTimeoutId = null;
+        }
+
+        if (state === 'reloading' && tile.state !== 'loaded') {
+            tile.reloadTimeoutId = setTimeout(
+                (function(){ this.reloadTile(id, state); }).bind(this),
+                17
+            );
+            return;
+        }
+
         // The difference between "loading" tiles and "reloading" or "expired"
         // tiles is that "reloading"/"expired" tiles are "renderable".
         // Therefore, a "loading" tile cannot become a "reloading" tile without
