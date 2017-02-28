@@ -142,16 +142,8 @@ class SourceCache extends Evented {
     reloadTile(id, state) {
         const tile = this._tiles[id];
 
-        if (tile.reloadTimeoutId) {
-            clearTimeout(tile.reloadTimeoutId);
-            tile.reloadTimeoutId = null;
-        }
-
         if (state === 'reloading' && tile.state !== 'loaded') {
-            tile.reloadTimeoutId = setTimeout(
-                (function(){ this.reloadTile(id, state); }).bind(this),
-                17
-            );
+            tile.reloadAgain = true;
             return;
         }
 
@@ -180,6 +172,11 @@ class SourceCache extends Evented {
 
         // HACK this is necessary to fix https://github.com/mapbox/mapbox-gl-js/issues/2986
         if (this.map) this.map.painter.tileExtentVAO.vao = null;
+
+        if (tile.reloadAgain) {
+            tile.reloadAgain = false;
+            this.reloadTile(id, 'reloading');
+        }
     }
 
     /**
