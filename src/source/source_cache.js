@@ -142,6 +142,8 @@ class SourceCache extends Evented {
     reloadTile(id, state) {
         const tile = this._tiles[id];
 
+        if (!tile) return;
+
         if (state === 'reloading' && tile.state !== 'loaded') {
             tile.reloadAgain = true;
             return;
