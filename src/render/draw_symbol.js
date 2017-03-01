@@ -9,12 +9,6 @@ module.exports = drawSymbols;
 function drawSymbols(painter, sourceCache, layer, coords) {
     if (painter.isOpaquePass) return;
 
-    const drawAcrossEdges =
-        !layer.layout['text-allow-overlap'] &&
-        !layer.layout['icon-allow-overlap'] &&
-        !layer.layout['text-ignore-placement'] &&
-        !layer.layout['icon-ignore-placement'];
-
     const gl = painter.gl;
 
     // Disable the stencil test so that labels aren't clipped to tile boundaries.
@@ -22,11 +16,7 @@ function drawSymbols(painter, sourceCache, layer, coords) {
     // Layers with features that may be drawn overlapping aren't clipped. These
     // layers are sorted in the y direction, and to draw the correct ordering near
     // tile edges the icons are included in both tiles and clipped when drawing.
-    if (drawAcrossEdges) {
-        gl.disable(gl.STENCIL_TEST);
-    } else {
-        gl.enable(gl.STENCIL_TEST);
-    }
+    gl.disable(gl.STENCIL_TEST);
 
     painter.setDepthSublayer(0);
     painter.depthMask(false);
