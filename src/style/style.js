@@ -439,6 +439,8 @@ class Style extends Evented {
             layerObject = util.extend(layerObject, { source: id });
         }
 
+        layerObject = util.extend(layerObject, { gl: this.map.painter.gl } );
+
         // this layer is not in the style.layers array, so we pass an impossible array index
         if (this._validate(validateStyle.layer,
                 `layers.${id}`, layerObject, {arrayIndex: -1}, options)) return;

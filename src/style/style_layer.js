@@ -7,6 +7,7 @@ const styleSpec = require('../style-spec/reference/latest');
 const validateStyle = require('./validate_style');
 const parseColor = require('./../style-spec/util/parse_color');
 const Evented = require('../util/evented');
+const createPaletteTexture = require('./palette_texture');
 
 const TRANSITION_SUFFIX = '-transition';
 
@@ -22,6 +23,10 @@ class StyleLayer extends Evented {
         this.minzoom = layer.minzoom;
         this.maxzoom = layer.maxzoom;
         this.filter = layer.filter;
+
+        if (layer.palette) {
+            this.paletteTexture = createPaletteTexture(layer.gl, layer.palette);
+        }
 
         this.paint = {};
         this.layout = {};

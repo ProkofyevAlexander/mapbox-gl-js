@@ -38,7 +38,7 @@ function drawRasterTile(painter, sourceCache, layer, coord) {
 
     tile.registerFadeDuration(painter.style.animationLoop, layer.paint['raster-fade-duration']);
 
-    const program = painter.useProgram('raster');
+    const program = painter.useProgram(layer.paletteTexture ? 'rasterTexture' : 'raster');
     gl.uniformMatrix4fv(program.u_matrix, false, posMatrix);
 
     // color parameters
@@ -58,7 +58,10 @@ function drawRasterTile(painter, sourceCache, layer, coord) {
 
     gl.activeTexture(gl.TEXTURE1);
 
-    if (parentTile) {
+    if (layer.paletteTexture) {
+        gl.bindTexture(gl.TEXTURE_2D, layer.paletteTexture);
+    }
+    else if (parentTile) {
         gl.bindTexture(gl.TEXTURE_2D, parentTile.texture);
         parentScaleBy = Math.pow(2, parentTile.coord.z - tile.coord.z);
         parentTL = [tile.coord.x * parentScaleBy % 1, tile.coord.y * parentScaleBy % 1];

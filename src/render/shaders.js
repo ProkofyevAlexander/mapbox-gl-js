@@ -65,6 +65,10 @@ module.exports = {
         fragmentSource: fs.readFileSync(path.join(__dirname, '../shaders/raster.fragment.glsl'), 'utf8'),
         vertexSource: fs.readFileSync(path.join(__dirname, '../shaders/raster.vertex.glsl'), 'utf8')
     },
+    rasterTexture: {
+        fragmentSource: fs.readFileSync(path.join(__dirname, '../shaders/raster_texture.fragment.glsl'), 'utf8'),
+        vertexSource: fs.readFileSync(path.join(__dirname, '../shaders/raster_texture.vertex.glsl'), 'utf8')
+    },
     symbolIcon: {
         fragmentSource: fs.readFileSync(path.join(__dirname, '../shaders/symbol_icon.fragment.glsl'), 'utf8'),
         vertexSource: fs.readFileSync(path.join(__dirname, '../shaders/symbol_icon.vertex.glsl'), 'utf8')
